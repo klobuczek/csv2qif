@@ -1,5 +1,4 @@
 require 'optparse'
-require 'csv2qif/converter'
 
 module Csv2qif
   class CLI

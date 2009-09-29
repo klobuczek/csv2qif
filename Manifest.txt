@@ -7,6 +7,7 @@ bin/csv2qif
 config/website.yml.sample
 lib/csv2qif.rb
 lib/csv2qif/cli.rb
+lib/csv2qif/converter.rb
 script/console
 script/destroy
 script/generate
