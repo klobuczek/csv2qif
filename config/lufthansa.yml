@@ -1,4 +1,4 @@
-row_separatot: ;
+field_separator: ;
 type: CCard
 header: 2
 date: d

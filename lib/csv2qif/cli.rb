@@ -3,7 +3,7 @@ require 'optparse'
 module Csv2qif
   class CLI
     DEFAULT_OPTIONS = {
-            :row_separator => ',',
+            :field_separator => ',',
             :header => 0
     }
     

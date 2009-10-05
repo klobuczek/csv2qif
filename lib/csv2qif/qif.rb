@@ -45,7 +45,7 @@ class QIF
     case @current_key
       when :date: Date.parse(value).strftime("%m/%d/%Y")
       when :amount: QIF.parse_float value
-      else value
+      else value.strip
     end
   end
 
@@ -61,7 +61,7 @@ class QIF
   def put_lines code, value, limit
     overflow = []
     value.each_line do |line|
-      unless (line = line.lstrip).empty?
+      unless (line = line.strip).empty?
         if (limit -= 1) > 0
           put_line code, line
         else
