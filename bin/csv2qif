@@ -5,6 +5,5 @@
 
 require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + "/../lib/csv2qif")
-require "csv2qif/cli"
 
 Csv2qif::CLI.execute(STDOUT, ARGV)

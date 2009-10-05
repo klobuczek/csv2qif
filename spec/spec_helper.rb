@@ -8,3 +8,7 @@ end
 
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'csv2qif'
+
+require 'rubygems'
+require 'mocha'
+

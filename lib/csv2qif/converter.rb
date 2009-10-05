@@ -56,7 +56,7 @@ module Csv2qif
           category "Expenses:#{'Private:' if privat}"+row[12].gsub('-', ':') if row[12]
           amount row[5]
           num row[11]
-          [9, 10].each {|i| row[i].split(/$/).each_with_index {|l, i| address(l.strip) unless l.strip.empty? or i > 3 } if row[i]}
+          [9, 10].each {|i| row[i].split(/\n/).each_with_index {|l, i| address(l.strip) unless l.strip.empty? or i > 3 } if row[i]}
           ende
         end
       end

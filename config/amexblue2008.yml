@@ -1,0 +1,13 @@
+type: CCard
+header: 7
+where: e
+date: a
+payee: c
+category: m
+amount: f
+num: l
+address: |
+    j ? k ? j+"\n"+k : j : k
+mappings:
+    - /-/:/
+    - /^/Private:Expenses:/

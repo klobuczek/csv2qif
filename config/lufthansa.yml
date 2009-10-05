@@ -1,0 +1,10 @@
+row_separatot: ;
+type: CCard
+header: 2
+date: d
+payee: f
+amount: |
+    n=='H'?m:-m
+num: a
+address: g
+memo: h+"\n"+i
