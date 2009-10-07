@@ -2,19 +2,24 @@ class QIF
   COLUMNS = ('a'..'z').to_a
   QIF_CODES = [
           [:date, :D],
-          [:payee, :P],
-          [:category, :L],
           [:amount, :T],
+          [:cleared, :C, 'Cleared Status'],
+          [:num, :N, 'Num (check or reference number)'],
+          [:payee, :P],
           [:memo, :M],
-          [:num, :N],
-          [:address, :A]
+          [:address, :A, 'Address (up to five lines; the sixth line is an optional message)'],
+          [:category, :L, 'Category (Category/Subcategory/Transfer/Class)']
   ]
 
-  def initialize stream, options
+  def reset stream, options
     @stream = stream
     @options = options
     #options.keys.each { |m| undef_method m }
     stream.puts"!Type:#{options[:type]}"
+  end
+
+  def block
+    Proc.new {}
   end
 
   def header row
@@ -23,15 +28,18 @@ class QIF
 
   def push row
     @row = row
-    return unless @options[:where].nil? or eval @options[:where]
+    return if call_or_eval(:where)==false
     QIF_CODES.each do |key, code|
-      @current_key = key
-      next unless value = (eval @options[key] if @options.key? key)
+      next unless value = call_or_eval(key)
       case key
+        when :date then
+          put_line code, (value.instance_of?(Date) ? value : Date.parse(value)).strftime("%m/%d/%Y")
+        when :amount then
+          put_line code, value.to_f
         when :address then
           put_lines code, value, 5
         when :category then
-          @options[:mappings].each {|pattern, replacement| value.gsub!(pattern, replacement) } if @options[:mappings]
+          @options[:mappings].each {|condition, pattern, replacement| value.gsub!(pattern, replacement) if call_or_eval_or_value condition} if @options[:mappings]
           put_line code, value
         else
           put_line code, value
@@ -41,21 +49,19 @@ class QIF
   end
 
   def method_missing(sym, *args, &block)
-    return unless value=@row[COLUMNS.index(sym.to_s)]
-    case @current_key
-      when :date: Date.parse(value).strftime("%m/%d/%Y")
-      when :amount: QIF.parse_float value
-      else value.strip
-    end
+    @row[COLUMNS.index(sym.to_s)]
   end
 
   private
 
-  def self.parse_float n
-    if i=n.index(',')
-      n.gsub!(/,/, i + 3 < n.length ? '': '.')
+  def call_or_eval key
+    if instr = @options[key]
+      call_or_eval_or_value instr
     end
-    n.gsub(/\$/,'').to_f
+  end
+
+  def call_or_eval_or_value value
+    value.instance_of?(Proc) ? value.call : value.instance_of?(String) ? eval(value) : value
   end
 
   def put_lines code, value, limit

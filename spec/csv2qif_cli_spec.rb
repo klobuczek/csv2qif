@@ -8,6 +8,17 @@ describe Csv2qif::CLI, "execute" do
     @stdout.should =~ /Usage:/
   end
 
+  it "load file" do
+    Csv2qif::CLI.load_file("amex2008").should_not be_empty
+  end
+
+
+  it "should prepare mappings" do
+    options = {:mappings => ["/a/b/c/"]}
+    Csv2qif::CLI.prepare_mappings(options)
+    options[:mappings].should == [['a', /b/, 'c']]
+  end
+
 end
 
 def cmd_exec arguments

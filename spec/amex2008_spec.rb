@@ -4,7 +4,7 @@ describe "Amex2008" do
 
   # Called before each example.
   before(:each) do
-    @options = Csv2qif::CLI.load_symbolized(File.join(File.dirname(__FILE__), "../config/amex2008.yml"))
+    @options = Csv2qif::CLI.load_file "amex2008"
   end
 
   # Called after each example.

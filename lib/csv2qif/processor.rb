@@ -3,6 +3,10 @@ require 'csv'
 class Processor
 
   class << self
+    def init
+      @qif = QIF.new
+    end
+
     def process arguments, options
       if arguments.empty?
         process_file STDIN, STDOUT, options
@@ -23,7 +27,7 @@ class Processor
     private
 
     def process_file in_stream, out_stream, options
-      @qif = QIF.new out_stream, options
+      @qif.reset out_stream, options
       rownum = 0
       CSV::Reader.parse(in_stream, options[:field_separator]) do |row|
         rownum += 1
