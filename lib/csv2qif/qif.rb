@@ -28,14 +28,14 @@ class QIF
 
   def push row
     @row = row
-    return if call_or_eval(:where)==false
+    return unless @options[:where].nil? or call_or_eval(:where)
     QIF_CODES.each do |key, code|
       next unless value = call_or_eval(key)
       case key
         when :date then
-          put_line code, (value.instance_of?(Date) ? value : Date.parse(value)).strftime("%m/%d/%Y")
+          put_line code, (value.instance_of?(Date) ? value : Date.parse(value, true)).strftime("%m/%d/%Y")
         when :amount then
-          put_line code, value.to_f
+          put_line code, sprintf("%.2f", value.to_f)
         when :address then
           put_lines code, value, 5
         when :category then
@@ -79,7 +79,7 @@ class QIF
   end
 
   def put_line code, value
-    return if (value = value.to_s.gsub(/\s+/, ' ').strip).empty?
+    return if (value = value.to_s.gsub(/\n+/, ' ').strip).empty?
     @stream.puts code.to_s + value
   end
 end  

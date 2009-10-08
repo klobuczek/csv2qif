@@ -7,13 +7,13 @@ class Processor
       @qif = QIF.new
     end
 
-    def process arguments, options
+    def process stdin, stdout, arguments, options
       if arguments.empty?
-        process_file STDIN, STDOUT, options
+        process_file stdin, stdout, options
       else
         arguments.each do |file|
           stream_in = File.open(file, "r")
-          stream_out = File.new(basename(file, ".csv", ".CSV")+'.qif', "w")
+          stream_out = File.new(file.gsub(/\.csv$/i, '')+'.qif', "w")
           begin
             process_file stream_in, stream_out, options
           ensure
@@ -34,10 +34,6 @@ class Processor
         @qif.header row if rownum == options[:header]
         @qif.push row if rownum > options[:header]
       end
-    end
-
-    def basename file, *suffix
-      suffix.map {|s| File.basename file, s}.sort.first
     end
   end
 end

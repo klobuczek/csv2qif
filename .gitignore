@@ -1,2 +1,5 @@
 .idea
 pkg
+*.qif
+*.sed
+.DS_Store

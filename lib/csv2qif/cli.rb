@@ -11,7 +11,7 @@ module Csv2qif
 
     }
 
-    def self.execute(stdout, arguments=[])
+    def self.execute(stdin, stdout, arguments=[])
 
       # NOTE: the option -p/--path= is given as an example, and should be replaced in your application.
 
@@ -77,11 +77,11 @@ module Csv2qif
       options = prepare_options stdout, options, Processor.init
       prepare_mappings options
 
-      Processor.process arguments, options
+      Processor.process stdin, stdout, arguments, options
     end
 
     private
-    def self.load_yml file, qif
+    def self.load_yml file, qif=nil
       symbolize_keys YAML.load_file(file)
     end
 
@@ -98,7 +98,7 @@ module Csv2qif
       end
     end
 
-    def self.load_file bundle, qif
+    def self.load_file bundle, qif=nil
       ['.', File.join( File.dirname(__FILE__), "../../config")].each do |dir|
         [:rb, :yml].each do |type|
           if h = (File.exists?(file=File.join(dir, [bundle, type].join('.'))) and send "load_#{type}".to_sym, file, qif)

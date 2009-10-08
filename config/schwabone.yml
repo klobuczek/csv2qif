@@ -1,7 +1,7 @@
 type: Bank
 header: 2
 where: |
-    d !='SWMXX' && e !="FOR INV CKG OVERDRAFT   4400-01213567 type: IC OVERDRAFT TRF"
+    d !='SWMXX' and not e =~ /FOR INV CKG OVERDRAFT   \d+-\d+ type: IC OVERDRAFT TRF/
 date: a
 payee: e
 amount: g
