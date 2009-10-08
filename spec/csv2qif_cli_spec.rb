@@ -2,6 +2,9 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 #require 'csv2qif/cli'
 
 describe Csv2qif::CLI, "execute" do
+  before :all do
+    File.delete(*Dir.glob('spec/data/*.qif'))
+  end
 
   it "should print default output" do
     cmd_exec(%w{-h}).should =~ /Usage:/
@@ -12,6 +15,7 @@ describe Csv2qif::CLI, "execute" do
     it "should covert #{name}" do
       cmd_exec(arguments).should be_empty
       File.read(file name, :qif).should == File.read(file name, :qif, :target)
+      File.delete(file name, :qif)
     end
   end
 
@@ -22,6 +26,7 @@ describe Csv2qif::CLI, "execute" do
     it "should covert #{name} reading from standard input" do
       cmd_exec_file(arguments, file(name, :csv), file( name, :qif)).
               should == File.read(file name, :qif, :target)
+      File.delete(file name, :qif)
     end
   end
 

@@ -13,7 +13,7 @@ class Processor
       else
         arguments.each do |file|
           stream_in = File.open(file, "r")
-          stream_out = File.new(file.gsub(/\.csv$/i, '')+'.qif', "w")
+          stream_out = File.new esub(file, :csv, :qif), "w"
           begin
             process_file stream_in, stream_out, options
           ensure
@@ -25,6 +25,10 @@ class Processor
     end
 
     private
+
+    def esub file, old, new
+       file.gsub(/\.#{old}$/i, '')+".#{new}"
+    end
 
     def process_file in_stream, out_stream, options
       @qif.reset out_stream, options
