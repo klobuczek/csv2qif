@@ -7,10 +7,7 @@ rescue LoadError
 end
 
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-$:.unshift(File.dirname(__FILE__) + '/lib')
 require 'csv2qif'
-require 'diff'
-require 'unixdiff'
 
 require 'rubygems'
 require 'mocha'
