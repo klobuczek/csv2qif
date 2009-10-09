@@ -3,3 +3,4 @@ pkg
 *.qif
 *.sed
 .DS_Store
+index.html

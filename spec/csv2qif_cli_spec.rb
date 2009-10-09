@@ -12,7 +12,7 @@ describe Csv2qif::CLI, "execute" do
 
   {:s1 => %w{-b schwabone spec/data/s1.csv}
   }.each do |name, arguments|
-    it "should covert #{name}" do
+    it "should convert #{name}" do
       cmd_exec(arguments).should be_empty
       File.read(file name, :qif).should == File.read(file name, :qif, :target)
       File.delete(file name, :qif)
@@ -20,10 +20,10 @@ describe Csv2qif::CLI, "execute" do
   end
 
   {:c1 => %w{-d 0 -t Cash -D c -P b -L a -T -d.to_f -m /^/Expenses:/},
-   :ag7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:/ -T} << "h ? -h.to_f : i",
-   :ab7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:Private:/ -T} << "h ? -h.to_f : i"
+   :ag7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:/ -T} << %{h ? -h.to_f : i},
+   :ab7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:Private:/ -T} << %{h ? -h.to_f : i}
   }.each do |name, arguments|
-    it "should covert #{name} reading from standard input" do
+    it "should convert #{name} reading from standard input" do
       cmd_exec_file(arguments, file(name, :csv), file( name, :qif)).
               should == File.read(file name, :qif, :target)
       File.delete(file name, :qif)
