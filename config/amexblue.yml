@@ -2,12 +2,13 @@ type: CCard
 header: 7
 where: e
 date: a
-payee: c
+payee: |
+    [c, g, d].join(' ')
 category: m
-amount: f
+amount: -f.to_f
 num: l
 address: |
     j ? k ? j+"\n"+k : j : k
 mappings:
     - /-/:/
-    - /^/Expenses:/
+    - /^/Private:Expenses:2009:/
