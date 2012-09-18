@@ -1,4 +1,5 @@
 require 'optparse'
+require 'yaml'
 
 module Csv2qif
   class CLI
@@ -58,6 +59,8 @@ module Csv2qif
                 "Use for modifying categories") { |arg| options[:mappings] = arg.split "," }
         opts.on("-d", "--header N", Integer,
                 "number of rows occupied by headers before actual data") { |arg| options[:header] = arg }
+        opts.on("-f", "--date_format Format",
+                "date format in the csv file") { |arg| options[:date_format] = arg }
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; return }
         opts.separator " "
@@ -86,7 +89,7 @@ module Csv2qif
     end
 
     def self.load_rb file, qif
-      eval File.read(file), qif.block
+      eval File.read(file), (qif and qif.block)
     end
 
     def self.prepare_options stdout, options, qif

@@ -33,7 +33,7 @@ class Processor
     def process_file in_stream, out_stream, options
       @qif.reset out_stream, options
       rownum = 0
-      CSV::Reader.parse(in_stream, options[:field_separator]) do |row|
+      CSV.new(in_stream, :col_sep => options[:field_separator]).each do |row|
         rownum += 1
         @qif.header row if rownum == options[:header]
         @qif.push row if rownum > options[:header]

@@ -1,14 +1,11 @@
 type: CCard
-header: 7
+header: 0
 where: e
 date: a
 payee: |
-    [c, g, d].join(' ')
-category: m
-amount: -f.to_f
-num: l
+    [c, i].join(' ')
+category: g
+amount: -h.to_f
+num: m
 address: |
-    j ? k ? j+"\n"+k : j : k
-mappings:
-    - /-/:/
-    - /^/Private:Expenses:2009:/
+    [j,k,l].compact.join "\n"

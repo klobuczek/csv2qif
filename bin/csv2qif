@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
-#
-#  Created on 2009-9-28.
-#  Copyright (c) 2009. All rights reserved.
-
-require 'rubygems'
-require File.expand_path(File.dirname(__FILE__) + "/../lib/csv2qif")
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'csv2qif'
 
 Csv2qif::CLI.execute(STDIN, STDOUT, ARGV)

@@ -33,7 +33,7 @@ class QIF
       next unless value = call_or_eval(key)
       case key
         when :date then
-          put_line code, (value.instance_of?(Date) ? value : Date.parse(value, true)).strftime("%m/%d/%Y")
+          put_line code, (value.instance_of?(Date) ? value : @options[:date_format] ? Date.strptime(value, @options[:date_format]) : Date.parse(value, true)).strftime("%m/%d/%Y")
         when :amount then
           put_line code, sprintf("%.2f", value.to_f)
         when :address then

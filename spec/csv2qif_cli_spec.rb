@@ -1,5 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
-#require 'csv2qif/cli'
+require 'spec_helper'
 
 describe Csv2qif::CLI, "execute" do
   before :all do
@@ -19,9 +18,9 @@ describe Csv2qif::CLI, "execute" do
     end
   end
 
-  {:c1 => %w{-d 0 -t Cash -D c -P b -L a -T -d.to_f -m /^/Expenses:/},
-   :ag7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:/ -T} << %{h ? -h.to_f : i},
-   :ab7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:Private:/ -T} << %{h ? -h.to_f : i}
+  {:c1 => %w{-d 0 -t Cash -D c -P b -L a -T -d.to_f -m /^/Expenses:/ -f %m/%d/%Y},
+   :ag7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:/ -f %m/%d/%y -T} << %{h ? -h.to_f : i},
+   :ab7 => %w{-w e -D e -P g -L "#{a}:#{d}" -m /^/Expenses:Private:/ -f %m/%d/%y -T} << %{h ? -h.to_f : i}
   }.each do |name, arguments|
     it "should convert #{name} reading from standard input" do
       cmd_exec_file(arguments, file(name, :csv), file( name, :qif)).
@@ -31,7 +30,7 @@ describe Csv2qif::CLI, "execute" do
   end
 
   it "load file" do
-    Csv2qif::CLI.load_file("amex2008").should_not be_empty
+    Csv2qif::CLI.load_file("amex").should_not be_empty
   end
 
   it "should prepare mappings" do

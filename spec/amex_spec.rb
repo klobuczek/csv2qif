@@ -1,10 +1,10 @@
-require "spec"
+require 'spec_helper'
 
-describe "Amex2008" do
+describe "Amex" do
 
   # Called before each example.
   before(:each) do
-    @options = Csv2qif::CLI.load_file "amex2008"
+    @options = Csv2qif::CLI.load_file "amex"
   end
 
   # Called after each example.
@@ -12,11 +12,11 @@ describe "Amex2008" do
     # Do nothing
   end
 
-  [["j", "k", "j\nk"],
-   ["#", "k", "#\nk"],
-   [nil, "k", "k"],
-   ["j", nil, "j"]
-  ].each do |j, k, a|
+  [["j", "k", nil, "j\nk"],
+   ["#", "k", nil, "#\nk"],
+   [nil, "k", nil, "k"],
+   ["j", nil, nil, "j"]
+  ].each do |j, k, l, a|
     it "should properly map address" do
       eval(@options[:address]).should == a
     end
