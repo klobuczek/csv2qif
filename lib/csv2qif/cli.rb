@@ -4,11 +4,11 @@ require 'yaml'
 module Csv2qif
   class CLI
     DEFAULT_OPTIONS = {
-            :field_separator => ',',
-            :header => 1,
-            :date => "a",
-            :amount => "b",
-            :type => 'CCard'
+        :field_separator => ',',
+        :header => 1,
+        :date => "a",
+        :amount => "b",
+        :type => 'CCard'
 
     }
 
@@ -18,7 +18,7 @@ module Csv2qif
 
       options = {
 
-              }
+      }
 
       mandatory_options = %w(  )
 
@@ -45,13 +45,15 @@ module Csv2qif
         BANNER
         opts.separator ""
         opts.on("-b", "--bundle BUNDLE", String,
-                 "Name of an option bundle",
-                 "Default: default") { |arg| options[:bundle] = arg }
+                "Name of an option bundle",
+                "Default: default") { |arg| options[:bundle] = arg }
         opts.on("-t", "--type Type", ['CCard', 'Bank', 'Cash'],
-                 "Type of acoount: CCard, Bank or Cash",
-                 "Default: CCard") { |arg| options[:type] = arg }
-         opts.on("-w", "--where CONDITION",
+                "Type of acoount: CCard, Bank or Cash",
+                "Default: CCard") { |arg| options[:type] = arg }
+        opts.on("-w", "--where CONDITION",
                 "only records satisfying CONDITION will be converted") { |arg| options[:where] = arg }
+        opts.on("-e", "--encoding ENCODING",
+                "encoding of the csv file") { |arg| options[:encoding] = arg }
         opts.on("-s", "--field_separator SEPARATOR",
                 "field seprator. Default: ,") { |arg| options[:where] = arg }
         opts.on("-m", "--mappings MAPPINGS",
@@ -64,10 +66,10 @@ module Csv2qif
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; return }
         opts.separator " "
-        
+
         opts.separator "QIF Record options:"
         QIF::QIF_CODES.each do |key, code, description|
-           opts.on("-#{code}", "--#{key} COLUMN", String, description || key.to_s.capitalize) {|arg| options[key]=arg}
+          opts.on("-#{code}", "--#{key} COLUMN", String, description || key.to_s.capitalize) { |arg| options[key]=arg }
         end
 
         opts.parse!(arguments)
@@ -102,7 +104,7 @@ module Csv2qif
     end
 
     def self.load_file bundle, qif=nil
-      ['.', File.join( File.dirname(__FILE__), "../../config")].each do |dir|
+      ['.', File.join(File.dirname(__FILE__), "../../config")].each do |dir|
         [:rb, :yml].each do |type|
           if h = (File.exists?(file=File.join(dir, [bundle, type].join('.'))) and send "load_#{type}".to_sym, file, qif)
             return h
@@ -121,7 +123,7 @@ module Csv2qif
 
     def self.prepare_mappings options
       options[:mappings] = options[:mappings].map do |m|
-        m = m.split(m[0,1])[1,3] unless m.instance_of? Array
+        m = m.split(m[0, 1])[1, 3] unless m.instance_of? Array
         m.unshift true if m.length < 3
         m[1]=Regexp.new(m[1])
         m

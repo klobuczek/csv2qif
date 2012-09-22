@@ -12,7 +12,8 @@ class Processor
         process_file stdin, stdout, options
       else
         arguments.each do |file|
-          stream_in = File.open(file, "r")
+          mode = ['r', options[:encoding]].compact.join(':')
+          stream_in = File.open(file, mode)
           stream_out = File.new esub(file, :csv, :qif), "w"
           begin
             process_file stream_in, stream_out, options
