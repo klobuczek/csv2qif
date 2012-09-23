@@ -1,5 +1,8 @@
 type: CCard
 header: 0
+date_format: |
+    %m/%d/%Y
+encoding: ISO-8859-1
 where: e
 date: a
 payee: |

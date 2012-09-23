@@ -91,7 +91,7 @@ module Csv2qif
     end
 
     def self.load_rb file, qif
-      eval File.read(file), (qif and qif.block)
+      qif.instance_eval File.read(file)
     end
 
     def self.prepare_options stdout, options, qif
