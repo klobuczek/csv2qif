@@ -1,7 +1,7 @@
 type: Bank
 header: 2
 date_format: |
-    %m/%d/%Y
+    %m/%d/%y
 where: |
     d !='SWMXX' and not e =~ /FOR INV CKG OVERDRAFT   \d+-\d+ type: IC OVERDRAFT TRF/
 date: a
