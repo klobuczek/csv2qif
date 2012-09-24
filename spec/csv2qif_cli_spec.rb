@@ -9,7 +9,7 @@ describe Csv2qif::CLI, "execute" do
     cmd_exec(%w{-h}).should =~ /Usage:/
   end
 
-  {:s1 => %w{-b schwabone_test spec/data/s1.csv}
+  {:s1 => %w{-b schwabone spec/data/s1.csv}
   }.each do |name, arguments|
     it "should convert #{name}" do
       cmd_exec(arguments).should be_empty
