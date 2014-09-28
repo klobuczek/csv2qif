@@ -2,16 +2,14 @@ type: CCard
 header: 0
 date_format: |
     %m/%d/%Y
-encoding: ISO-8859-1
+encoding: ISO-8859-1    
 where: e
 date: a
 payee: |
-    [c, i].join(' ')
-category: g
+    [c, k].join(' ')
+category: |
+  "Expenses:2013"
 amount: -h.to_f
-num: m
+num: o
 address: |
-    [j,k,l].compact.join "\n"
-mappings:
-    - /-/:/
-    - /^/Expenses:/
+    [l,m,n].compact.join "\n"
